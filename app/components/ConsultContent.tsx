@@ -2,19 +2,26 @@
 
 import { useState } from "react";
 import type { Question } from "@/lib/diagnosis/questions";
+import type { AnalysisResult } from "@/lib/diagnosis/analysis";
+import { ConsultResult } from "@/app/components/ConsultResult";
 
 type Props = {
   questions: Question[];
 };
 
+// 診断内容を表示するコンポーネント（引数として質問データを受け取る）
 export function ConsultContent({ questions }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const currentQuestion = questions[currentIndex];
   const isLastQuestion = currentIndex === questions.length - 1;
   const isFirstQuestion = currentIndex === 0;
 
+  // 選択肢を選択したときの処理：選択した選択肢のIDと値をSET ANSWERSでanswersに追加
   const handleSelectOption = (questionId: string, value: string) => {
     setAnswers((prev) => ({
       ...prev,
@@ -34,10 +41,48 @@ export function ConsultContent({ questions }: Props) {
     }
   };
 
-  const handleSubmit = () => {
-    console.log("回答結果:", answers);
-    alert("診断が完了しました！\n回答: " + JSON.stringify(answers, null, 2));
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/diagnosis/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answers }),
+      });
+      if (!res.ok) {
+        throw new Error("分析に失敗しました");
+      }
+      const data: AnalysisResult = await res.json();
+      setAnalysisResult(data);
+    } catch {
+      setError("診断結果の取得に失敗しました。もう一度お試しください。");
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  const handleRetry = () => {
+    setCurrentIndex(0);
+    setAnswers({});
+    setAnalysisResult(null);
+    setError(null);
+  };
+
+  if (analysisResult) {
+    return <ConsultResult result={analysisResult} onRetry={handleRetry} />;
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-8">
+        <div className="max-w-2xl w-full text-center">
+          <h1 className="text-3xl font-bold mb-4">診断中...</h1>
+          <p className="text-gray-600">あなたの回答を分析しています</p>
+        </div>
+      </div>
+    );
+  }
 
   if (questions.length === 0) {
     return (
@@ -55,6 +100,12 @@ export function ConsultContent({ questions }: Props) {
       <div className="max-w-2xl w-full">
         {/* ヘッダー */}
         <h1 className="text-3xl font-bold mb-8 text-center">エンジニアキャリア診断</h1>
+
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+            {error}
+          </div>
+        )}
 
         {/* 進捗表示 */}
         <div className="mb-8">
