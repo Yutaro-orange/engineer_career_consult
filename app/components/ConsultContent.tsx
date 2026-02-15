@@ -164,6 +164,15 @@ export function ConsultContent({ questions }: Props) {
             前へ
           </button>
 
+          <button
+            onClick={handleSubmit}
+            className={`px-6 py-3 rounded-lg font-medium transition-colors 
+                        "bg-gray-200 border-2 border-gray-300 text-gray-700 hover:border-gray-400"
+            }`}
+          >
+          診断をスキップする
+          </button>
+
           {isLastQuestion ? (
             <button
               onClick={handleSubmit}
