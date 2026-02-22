@@ -1,3 +1,7 @@
+import * as fs from "fs";
+import * as path from "path";
+import { decrypt } from "@/packages/server-core/utilities/encryption";
+
 export type GitHubLanguage = {
   name: string;
 };
@@ -44,12 +48,36 @@ const GITHUB_GRAPHQL_QUERY = `
   }
 `;
 
+function decryptToken(): string | null {
+  const encrypted = process.env.GITHUB_TOKEN_ENCRYPTED;
+  if (!encrypted) {
+    return null;
+  }
+
+  const keyFilePath = path.resolve(process.cwd(), ".env.key");
+  if (!fs.existsSync(keyFilePath)) {
+    console.error(".env.key file not found");
+    return null;
+  }
+
+  const key = fs.readFileSync(keyFilePath, "utf8").trim();
+  return decrypt(encrypted, key);
+}
+
 export async function getSkillResult(): Promise<GitHubUserRepositories> {
-  const token = process.env.GITHUB_TOKEN;
   const username = process.env.GITHUB_USERNAME ?? "Yutaro-orange";
 
+  let token: string | null = null;
+  try {
+    token = decryptToken();
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Failed to decrypt GITHUB_TOKEN:", error.message);
+    }
+  }
+
   if (!token) {
-    console.error("GITHUB_TOKEN is not set");
+    console.error("GITHUB_TOKEN is not available (encrypted token missing or decryption failed)");
     return {
       data: { user: { repositories: { nodes: [] } } },
     };

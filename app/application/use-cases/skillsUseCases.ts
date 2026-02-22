@@ -9,7 +9,11 @@ export type SkillSummary = {
 
 export async function skillsUseCases(): Promise<SkillSummary[]> {
   const apiResponse = await getSkillResult();
-  const repos = apiResponse.data.user.repositories.nodes;
+  const repos = apiResponse?.data?.user?.repositories?.nodes;
+
+  if (!Array.isArray(repos)) {
+    return [];
+  }
 
   return repos.map((repo: GitHubRepository): SkillSummary => ({
     name: repo.name,
