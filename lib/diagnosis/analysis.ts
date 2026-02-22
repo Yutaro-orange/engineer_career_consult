@@ -39,6 +39,13 @@ const stabilityChallengeMap: Record<string, Record<string, number>> = {
     full_remote: 60,
     freelance: 90,
   },
+  q4: {
+    less_than_1: 30,
+    "1_to_3": 40,
+    "3_to_5": 55,
+    "5_to_10": 65,
+    more_than_10: 75,
+  },
   q6: {
     not_now: 15,
     within_1_year: 40,
@@ -68,6 +75,13 @@ const specialistManagementMap: Record<string, Record<string, number>> = {
     work_life_balance: 50,
     salary_increase: 50,
     management: 90,
+  },
+  q4: {
+    less_than_1: 20,
+    "1_to_3": 30,
+    "3_to_5": 45,
+    "5_to_10": 60,
+    more_than_10: 75,
   },
   q5: {
     frontend: 20,

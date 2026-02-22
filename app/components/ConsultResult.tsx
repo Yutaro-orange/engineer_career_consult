@@ -1,7 +1,7 @@
 "use client";
 
 import type { AnalysisResult } from "@/lib/diagnosis/analysis";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type Props = {
   result: AnalysisResult;
@@ -64,13 +64,6 @@ function AxisSection({
 }
 
 export function ConsultResult({ result, onRetry }: Props) {
-  const router = useRouter();
-
-  // メニュー画面へ遷移
-  const menuStart = () => {
-    router.push("/menu");
-  };
-
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-8">
       <div className="max-w-2xl w-full">
@@ -106,23 +99,20 @@ export function ConsultResult({ result, onRetry }: Props) {
           rightLabel="自由裁量"
         />
 
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center gap-4 mt-8">
           <button
             onClick={onRetry}
             className="px-8 py-3 rounded-lg font-medium bg-white border-2 border-gray-300 text-gray-700 hover:border-gray-400 transition-colors"
           >
             もう一度診断する
           </button>
-          <button
-            onClick={menuStart}
+          <Link
+            href="/menu"
             className="px-8 py-3 rounded-lg font-medium bg-white border-2 border-gray-300 text-gray-700 hover:border-gray-400 transition-colors"
           >
             メニューへ
-          </button>
+          </Link>
         </div>
-      </div>
-      <div>
-
       </div>
     </div>
   );

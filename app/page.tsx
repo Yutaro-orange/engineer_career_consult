@@ -1,14 +1,6 @@
-"use client";
-
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Home() {
-  const router = useRouter();
-
-  const handleStart = () => {
-    router.push("/consult");
-  };
-
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-8">
       <div className="max-w-2xl w-full text-center">
@@ -21,12 +13,12 @@ export default function Home() {
           <br />
           所要時間：約3分
         </p>
-        <button
-          onClick={handleStart}
-          className="bg-black text-white hover:bg-gray-800 px-8 py-4 rounded-lg text-lg font-medium transition-colors"
+        <Link
+          href="/consult"
+          className="bg-black text-white hover:bg-gray-800 px-8 py-4 rounded-lg text-lg font-medium transition-colors inline-block"
         >
           診断を開始する
-        </button>
+        </Link>
       </div>
     </div>
   );

@@ -7,9 +7,8 @@ export type SkillSummary = {
   primaryLanguage: string | null;
 };
 
-// APIから取得したスキル情報を加工して表示するためのユースケース
-export function skillsUseCases(): SkillSummary[] {
-  const apiResponse = getSkillResult();
+export async function skillsUseCases(): Promise<SkillSummary[]> {
+  const apiResponse = await getSkillResult();
   const repos = apiResponse.data.user.repositories.nodes;
 
   return repos.map((repo: GitHubRepository): SkillSummary => ({

@@ -1,35 +1,25 @@
-"use client";
-
-// 診断後に遷移するメニュー画面
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-
-// チャット画面に遷移
-
-// githubのリポジトリに遷移
-
 
 export function Menu() {
-    const router = useRouter();
-    const pageMove = (pageName: string) => {
-        router.push(pageName);
-    }
-    return(
-        <div>
-            <h1 className="text-2xl font-bold mb-6">メニュー</h1>
-            <button
-            onClick={() => pageMove("/chat")}
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center p-8">
+      <div className="max-w-2xl w-full text-center">
+        <h1 className="text-3xl font-bold mb-8">メニュー</h1>
+        <div className="flex flex-col gap-4 items-center">
+          <Link
+            href="/chat"
             className="px-8 py-3 rounded-lg font-medium bg-white border-2 border-gray-300 text-gray-700 hover:border-gray-400 transition-colors"
-            >
+          >
             チャット
-            </button>
-            <button
-            onClick={() => pageMove("/skill")}
+          </Link>
+          <Link
+            href="/skill"
             className="px-8 py-3 rounded-lg font-medium bg-white border-2 border-gray-300 text-gray-700 hover:border-gray-400 transition-colors"
-            >
+          >
             技術力判断
-            </button>
+          </Link>
         </div>
-
-    );
+      </div>
+    </div>
+  );
 }

@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { diagnosisQuestions } from "./data/questions";
+import { diagnosisQuestions } from "../lib/diagnosis/questions";
 
 const prisma = new PrismaClient();
 

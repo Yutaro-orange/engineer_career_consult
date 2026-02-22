@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import type { Question } from "@/lib/diagnosis/questions";
 import type { AnalysisResult } from "@/lib/diagnosis/analysis";
 import { ConsultResult } from "@/app/components/ConsultResult";
@@ -11,6 +12,7 @@ type Props = {
 
 // 診断内容を表示するコンポーネント（引数として質問データを受け取る）
 export function ConsultContent({ questions }: Props) {
+  const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
@@ -42,6 +44,7 @@ export function ConsultContent({ questions }: Props) {
   };
 
   const handleSubmit = async () => {
+    if (isLoading) return;
     setIsLoading(true);
     setError(null);
     try {
@@ -77,6 +80,11 @@ export function ConsultContent({ questions }: Props) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-8">
         <div className="max-w-2xl w-full text-center">
+          <div
+            className="inline-block w-12 h-12 border-4 border-gray-300 border-t-black rounded-full mb-6"
+            style={{ animation: "spin 1s linear infinite" }}
+          />
+          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
           <h1 className="text-3xl font-bold mb-4">診断中...</h1>
           <p className="text-gray-600">あなたの回答を分析しています</p>
         </div>
@@ -165,20 +173,18 @@ export function ConsultContent({ questions }: Props) {
           </button>
 
           <button
-            onClick={handleSubmit}
-            className={`px-6 py-3 rounded-lg font-medium transition-colors 
-                        "bg-gray-200 border-2 border-gray-300 text-gray-700 hover:border-gray-400"
-            }`}
+            onClick={() => router.push("/menu")}
+            className="px-6 py-3 rounded-lg font-medium transition-colors bg-gray-200 border-2 border-gray-300 text-gray-700 hover:border-gray-400"
           >
-          診断をスキップする
+            診断をスキップする
           </button>
 
           {isLastQuestion ? (
             <button
               onClick={handleSubmit}
-              disabled={!answers[currentQuestion.id]}
+              disabled={!answers[currentQuestion.id] || isLoading}
               className={`px-8 py-3 rounded-lg font-medium transition-colors ${
-                answers[currentQuestion.id]
+                answers[currentQuestion.id] && !isLoading
                   ? "bg-black text-white hover:bg-gray-800"
                   : "bg-gray-200 text-gray-400 cursor-not-allowed"
               }`}
