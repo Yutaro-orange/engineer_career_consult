@@ -1,8 +1,9 @@
-import { skillsUseCases, SkillSummary } from "@/app/application/use-cases/skillsUseCases";
+import { skillsUseCases, SkillSummary, determineStrengthLanguage } from "@/app/application/use-cases/skillsUseCases";
+import { StrengthBanner } from "../components/StrengthBanner";
 
 export default async function SkillPage() {
-  const skills: SkillSummary[] = await skillsUseCases();
-
+  const skills = await skillsUseCases();
+  const strengthLanguage = determineStrengthLanguage(skills.overallLanguages);
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-8">
       <div className="max-w-2xl w-full">
@@ -29,6 +30,7 @@ export default async function SkillPage() {
             ))}
           </ul>
         )}
+        <StrengthBanner strengthLanguage={strengthLanguage} />
       </div>
     </div>
   );
