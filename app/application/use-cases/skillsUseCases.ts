@@ -11,7 +11,7 @@ export type SkillSummary = {
 export async function skillsUseCases(): Promise<SkillPageData> {
   const result = await fetchGitHubRepositories();
   const repos = result.repositories;
-  const totalSize = 0;
+
 
   if (!result.success || !Array.isArray(repos)) {
     return { success: false, repos: [], overallLanguages: [], strengthLanguage: null };
@@ -23,7 +23,7 @@ export async function skillsUseCases(): Promise<SkillPageData> {
     description: repo.description,
     url: repo.url,
     primaryLanguage: repo.primaryLanguage?.name ?? null,
-    languages: aggregateLanguages(repo.languages.edges, totalSize),
+    languages: aggregateLanguages(repo.languages.edges, repo.languages.totalSize),
   }));
   // 2. overallLanguages（全リポジトリ横断の集計）
   const overallLanguages = mergeLanguagesAcrossRepos(repos);

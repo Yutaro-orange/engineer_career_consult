@@ -1,18 +1,10 @@
-import { determineStrengthLanguage } from "@/app/application/use-cases/skillsUseCases";
-
-// export function StrengthBanner(){
-//     const strengthLanguage = determineStrengthLanguage(languages);
-//     if(strengthLanguage == null){
-//         return null;
-//     } else { 
-//         return(
-//         <Banner>あなたの最大の強みは{determineStrengthLanguage}です</Banner>
-//         );
-//     }
-
-// }
-
 export function StrengthBanner({ strengthLanguage }: { strengthLanguage: string | null }) {
   if (!strengthLanguage) return null;
-  return <div className="strengthBanner">あなたの最大の強みは{strengthLanguage}です</div>;
+  return (
+    <div className="bg-blue-50 rounded-xl p-6 mb-8 text-center">
+      <p className="text-2xl font-bold text-blue-800">
+        あなたの最大の強みは{strengthLanguage}です
+      </p>
+    </div>
+  );
 }
