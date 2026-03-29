@@ -10,7 +10,8 @@
       "Bash(gh pr diff:*)",
       "Bash(npx prisma generate:*)",
       "Bash(pnpm build:*)",
-      "Bash(npx tsx:*)"
+      "Bash(npx tsx:*)",
+      "Bash(git commit:*)"
     ]
   }
 }

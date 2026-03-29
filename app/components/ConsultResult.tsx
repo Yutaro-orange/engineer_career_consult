@@ -1,4 +1,4 @@
-"use client";
+//"use client";
 
 import type { AnalysisResult } from "@/lib/diagnosis/analysis";
 import Link from "next/link";
