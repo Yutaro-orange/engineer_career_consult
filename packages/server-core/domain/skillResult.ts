@@ -21,16 +21,6 @@ export type GitHubRepository = {
   };
 };
 
-export type GitHubUserRepositories = {
-  data: {
-    user: {
-      repositories: {
-        nodes: GitHubRepository[];
-      };
-    };
-  };
-};
-
 /** 取得結果（成功/失敗を判別可能） */
 export type SkillFetchResult = {
   repositories: GitHubRepository[];

@@ -1,15 +1,11 @@
-import * as fs from "fs";
-import * as path from "path";
-import { decrypt } from "../utilities/encryption";
 import {
-  GitHubLanguageEdge,
-  GitHubUserRepositories,
+  GitHubRepository,
   SkillFetchResult,
 } from "../domain/skillResult";
 
 const GITHUB_GRAPHQL_QUERY = `
-  query($login: String!) {
-    user(login: $login) {
+  query {
+    viewer {
       repositories(first: 100, privacy: PUBLIC) {
         nodes {
           name
@@ -33,64 +29,37 @@ const GITHUB_GRAPHQL_QUERY = `
   }
 `;
 
-function decryptToken(): string | null {
-  const encrypted = process.env.GITHUB_TOKEN_ENCRYPTED;
-  if (!encrypted) {
-    return null;
-  }
+type GitHubViewerRepositories = {
+  data: {
+    viewer: {
+      repositories: {
+        nodes: GitHubRepository[];
+      };
+    };
+  };
+};
 
-  const keyFilePath = path.resolve(process.cwd(), ".env.key");
-  if (!fs.existsSync(keyFilePath)) {
-    console.error(".env.key file not found");
-    return null;
-  }
-
-  const key = fs.readFileSync(keyFilePath, "utf8").trim();
-  return decrypt(encrypted, key);
-}
-
-// GitHub APIからリポジトリ情報を取得する関数
-
-export async function fetchGitHubRepositories(): Promise<SkillFetchResult> {
-  const username = process.env.GITHUB_USERNAME ?? "Yutaro-orange";
-
-  let token: string | null = null;
-  try {
-    token = decryptToken();
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error("Failed to decrypt GITHUB_TOKEN:", error.message);
-    }
-  }
-
-  if (!token) {
-    console.error(
-      "GITHUB_TOKEN is not available (encrypted token missing or decryption failed)"
-    );
-    return { repositories: [], success: false };
-  }
-
+export async function fetchGitHubRepositories(accessToken: string): Promise<SkillFetchResult> {
   try {
     const response = await fetch("https://api.github.com/graphql", {
       method: "POST",
       headers: {
-        Authorization: `bearer ${token}`,
+        Authorization: `bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         query: GITHUB_GRAPHQL_QUERY,
-        variables: { login: username },
       }),
-      next: { revalidate: 3600 },
+      cache: "no-store",
     });
 
     if (!response.ok) {
       throw new Error(`GitHub API responded with ${response.status}`);
     }
 
-    const json: GitHubUserRepositories = await response.json();
+    const json: GitHubViewerRepositories = await response.json();
     return {
-      repositories: json.data.user.repositories.nodes,
+      repositories: json.data.viewer.repositories.nodes,
       success: true,
     };
   } catch (error: unknown) {

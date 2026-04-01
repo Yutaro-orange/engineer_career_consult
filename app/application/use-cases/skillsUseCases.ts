@@ -1,8 +1,8 @@
 import { fetchGitHubRepositories } from "@/packages/server-core/infrastracture/githubClient";
 import { GitHubLanguageEdge, GitHubRepository, LanguageStat, SkillPageData } from "@/packages/server-core/domain/skillResult";
 
-export async function skillsUseCases(): Promise<SkillPageData> {
-  const result = await fetchGitHubRepositories();
+export async function skillsUseCases(accessToken: string): Promise<SkillPageData> {
+  const result = await fetchGitHubRepositories(accessToken);
   const repos = result.repositories;
 
   if (!result.success || !Array.isArray(repos)) {

@@ -1,10 +1,14 @@
 import Link from "next/link";
+import LogoutButton from "@/app/components/LogoutButton";
 
 export function Menu() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-8">
       <div className="max-w-2xl w-full text-center">
-        <h1 className="text-3xl font-bold mb-8">メニュー</h1>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold">メニュー</h1>
+          <LogoutButton />
+        </div>
         <div className="flex flex-col gap-4 items-center">
           <Link
             href="/chat"
