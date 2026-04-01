@@ -27,9 +27,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
       try {
-        const targetOrigin = new URL(url).origin;
-        if (targetOrigin === baseUrl) {
-          return url;
+        const resolved = url.startsWith('/') ? `${baseUrl}${url}` : url;
+        const parsedUrl = new URL(resolved);
+        // ログインページへのリダイレクトループを防止
+        if (parsedUrl.origin === baseUrl && parsedUrl.pathname !== '/login') {
+          return resolved;
         }
       } catch {
         // invalid URL — fall through to default
