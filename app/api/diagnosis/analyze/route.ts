@@ -1,7 +1,13 @@
 import { NextResponse } from 'next/server';
+import { auth } from '@/auth';
 import { analyzeAnswers } from '@/lib/diagnosis/analysis';
 
 export async function POST(request: Request) {
+  const session = await auth();
+  if (!session) {
+    return NextResponse.json({ error: '認証が必要です' }, { status: 401 });
+  }
+
   try {
     const body = await request.json();
     const answers = body.answers;
