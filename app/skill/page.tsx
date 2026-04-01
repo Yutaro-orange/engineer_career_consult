@@ -1,9 +1,9 @@
-import { auth } from "@/auth";
-import { getAccessToken } from "@/lib/getAccessToken";
-import { skillsUseCases } from "@/app/application/use-cases/skillsUseCases";
-import { StrengthBanner } from "../components/StrengthBanner";
-import { OverallLanguageChart } from "../components/OverallLanguageChart";
-import { RepoCard } from "../components/RepoCard";
+import { auth } from '@/auth';
+import { getAccessToken } from '@/lib/getAccessToken';
+import { skillsUseCases } from '@/app/application/use-cases/skillsUseCases';
+import { StrengthBanner } from '../components/StrengthBanner';
+import { OverallLanguageChart } from '../components/OverallLanguageChart';
+import { RepoCard } from '../components/RepoCard';
 
 export default async function SkillPage() {
   const session = await auth();
@@ -13,7 +13,9 @@ export default async function SkillPage() {
       <div className="min-h-screen flex flex-col items-center justify-center p-8">
         <div className="max-w-2xl w-full text-center">
           <h1 className="text-3xl font-bold mb-8">技術力判断</h1>
-          <p className="text-center text-gray-500">セッション情報を取得できませんでした。再度ログインしてください。</p>
+          <p className="text-center text-gray-500">
+            セッション情報を取得できませんでした。再度ログインしてください。
+          </p>
         </div>
       </div>
     );
@@ -26,7 +28,9 @@ export default async function SkillPage() {
       <div className="min-h-screen flex flex-col items-center justify-center p-8">
         <div className="max-w-2xl w-full text-center">
           <h1 className="text-3xl font-bold mb-8">技術力判断</h1>
-          <p className="text-center text-gray-500">GitHubアクセストークンの取得に失敗しました。再度ログインしてください。</p>
+          <p className="text-center text-gray-500">
+            GitHubアクセストークンの取得に失敗しました。再度ログインしてください。
+          </p>
         </div>
       </div>
     );
@@ -39,7 +43,9 @@ export default async function SkillPage() {
       <div className="max-w-2xl w-full">
         <h1 className="text-3xl font-bold mb-8 text-center">技術力判断</h1>
         {!data.success ? (
-          <p className="text-center text-gray-500">データの取得に失敗しました。再取得してください。</p>
+          <p className="text-center text-gray-500">
+            データの取得に失敗しました。再取得してください。
+          </p>
         ) : data.repos.length === 0 ? (
           <p className="text-center text-gray-500">リポジトリが見つかりません。</p>
         ) : (

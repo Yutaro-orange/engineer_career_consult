@@ -1,8 +1,10 @@
-import { LanguageStat } from "@/packages/server-core/domain/skillResult";
-import { PieChart } from "./PieChart";
+import { LanguageStat } from '@/packages/server-core/domain/skillResult';
+import { PieChart } from './PieChart';
 
 export function OverallLanguageChart({ languages }: { languages: LanguageStat[] }) {
-  if (languages.length === 0) return null;
+  if (languages.length === 0) {
+    return null;
+  }
 
   return (
     <div>

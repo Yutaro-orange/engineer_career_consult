@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import type { Question } from "@/lib/diagnosis/questions";
-import type { AnalysisResult } from "@/lib/diagnosis/analysis";
-import { ConsultResult } from "@/app/components/ConsultResult";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import type { Question } from '@/lib/diagnosis/questions';
+import type { AnalysisResult } from '@/lib/diagnosis/analysis';
+import { ConsultResult } from '@/app/components/ConsultResult';
 
 type Props = {
   questions: Question[];
@@ -44,22 +44,24 @@ export function ConsultContent({ questions }: Props) {
   };
 
   const handleSubmit = async () => {
-    if (isLoading) return;
+    if (isLoading) {
+      return;
+    }
     setIsLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/diagnosis/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/diagnosis/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ answers }),
       });
       if (!res.ok) {
-        throw new Error("分析に失敗しました");
+        throw new Error('分析に失敗しました');
       }
       const data: AnalysisResult = await res.json();
       setAnalysisResult(data);
     } catch {
-      setError("診断結果の取得に失敗しました。もう一度お試しください。");
+      setError('診断結果の取得に失敗しました。もう一度お試しください。');
     } finally {
       setIsLoading(false);
     }
@@ -82,7 +84,7 @@ export function ConsultContent({ questions }: Props) {
         <div className="max-w-2xl w-full text-center">
           <div
             className="inline-block w-12 h-12 border-4 border-gray-300 border-t-black rounded-full mb-6"
-            style={{ animation: "spin 1s linear infinite" }}
+            style={{ animation: 'spin 1s linear infinite' }}
           />
           <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
           <h1 className="text-3xl font-bold mb-4">診断中...</h1>
@@ -118,7 +120,9 @@ export function ConsultContent({ questions }: Props) {
         {/* 進捗表示 */}
         <div className="mb-8">
           <div className="flex justify-between text-sm text-gray-500 mb-2">
-            <span>質問 {currentIndex + 1} / {questions.length}</span>
+            <span>
+              質問 {currentIndex + 1} / {questions.length}
+            </span>
             <span>{Math.round(((currentIndex + 1) / questions.length) * 100)}%</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
@@ -140,8 +144,8 @@ export function ConsultContent({ questions }: Props) {
                 key={option.id}
                 className={`block p-4 bg-white border-2 rounded-lg cursor-pointer transition-all ${
                   answers[currentQuestion.id] === option.value
-                    ? "border-black bg-gray-100"
-                    : "border-gray-200 hover:border-gray-400"
+                    ? 'border-black bg-gray-100'
+                    : 'border-gray-200 hover:border-gray-400'
                 }`}
               >
                 <input
@@ -165,15 +169,15 @@ export function ConsultContent({ questions }: Props) {
             disabled={isFirstQuestion}
             className={`px-6 py-3 rounded-lg font-medium transition-colors ${
               isFirstQuestion
-                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                : "bg-white border-2 border-gray-300 text-gray-700 hover:border-gray-400"
+                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                : 'bg-white border-2 border-gray-300 text-gray-700 hover:border-gray-400'
             }`}
           >
             前へ
           </button>
 
           <button
-            onClick={() => router.push("/menu")}
+            onClick={() => router.push('/menu')}
             className="px-6 py-3 rounded-lg font-medium transition-colors bg-gray-200 border-2 border-gray-300 text-gray-700 hover:border-gray-400"
           >
             診断をスキップする
@@ -185,8 +189,8 @@ export function ConsultContent({ questions }: Props) {
               disabled={!answers[currentQuestion.id] || isLoading}
               className={`px-8 py-3 rounded-lg font-medium transition-colors ${
                 answers[currentQuestion.id] && !isLoading
-                  ? "bg-black text-white hover:bg-gray-800"
-                  : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                  ? 'bg-black text-white hover:bg-gray-800'
+                  : 'bg-gray-200 text-gray-400 cursor-not-allowed'
               }`}
             >
               診断結果を見る
@@ -197,8 +201,8 @@ export function ConsultContent({ questions }: Props) {
               disabled={!answers[currentQuestion.id]}
               className={`px-8 py-3 rounded-lg font-medium transition-colors ${
                 answers[currentQuestion.id]
-                  ? "bg-black text-white hover:bg-gray-800"
-                  : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                  ? 'bg-black text-white hover:bg-gray-800'
+                  : 'bg-gray-200 text-gray-400 cursor-not-allowed'
               }`}
             >
               次へ

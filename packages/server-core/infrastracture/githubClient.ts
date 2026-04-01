@@ -1,7 +1,4 @@
-import {
-  GitHubRepository,
-  SkillFetchResult,
-} from "../domain/skillResult";
+import { GitHubRepository, SkillFetchResult } from '../domain/skillResult';
 
 const GITHUB_GRAPHQL_QUERY = `
   query {
@@ -41,16 +38,16 @@ type GitHubViewerRepositories = {
 
 export async function fetchGitHubRepositories(accessToken: string): Promise<SkillFetchResult> {
   try {
-    const response = await fetch("https://api.github.com/graphql", {
-      method: "POST",
+    const response = await fetch('https://api.github.com/graphql', {
+      method: 'POST',
       headers: {
         Authorization: `bearer ${accessToken}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         query: GITHUB_GRAPHQL_QUERY,
       }),
-      cache: "no-store",
+      cache: 'no-store',
     });
 
     if (!response.ok) {
@@ -64,7 +61,7 @@ export async function fetchGitHubRepositories(accessToken: string): Promise<Skil
     };
   } catch (error: unknown) {
     if (error instanceof Error) {
-      console.error("Failed to fetch from GitHub API:", error.message);
+      console.error('Failed to fetch from GitHub API:', error.message);
     }
     return { repositories: [], success: false };
   }

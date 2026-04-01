@@ -28,9 +28,9 @@ export type SkillFetchResult = {
 };
 
 export type LanguageStat = {
-  name: string;       // 言語名（「その他」を含む）
-  percentage: number;  // 四捨五入済みパーセンテージ（整数）
-  bytes: number;       // 元のバイト数
+  name: string; // 言語名（「その他」を含む）
+  percentage: number; // 四捨五入済みパーセンテージ（整数）
+  bytes: number; // 元のバイト数
 };
 
 /** リポジトリ別スキルサマリー */
@@ -39,13 +39,12 @@ export type RepoSkillSummary = {
   description: string | null;
   url: string;
   primaryLanguage: string | null;
-  languages: LanguageStat[];  // 降順、1%未満は「その他」に集約済み
+  languages: LanguageStat[]; // 降順、1%未満は「その他」に集約済み
 };
-
 
 export type SkillPageData = {
   success: boolean;
   repos: RepoSkillSummary[];
-  overallLanguages: LanguageStat[];  // 全リポジトリ横断、降順
-  strengthLanguage: string | null;    // 最大の強み言語（null=データなし）
+  overallLanguages: LanguageStat[]; // 全リポジトリ横断、降順
+  strengthLanguage: string | null; // 最大の強み言語（null=データなし）
 };

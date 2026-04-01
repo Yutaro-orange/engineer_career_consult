@@ -1,4 +1,4 @@
-import LoginButton from "@/app/components/LoginButton";
+import LoginButton from '@/app/components/LoginButton';
 
 interface LoginPageProps {
   searchParams: Promise<{ error?: string; callbackUrl?: string }>;

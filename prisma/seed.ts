@@ -1,13 +1,13 @@
-import { PrismaClient } from "@prisma/client";
-import { diagnosisQuestions } from "../lib/diagnosis/questions";
+import { PrismaClient } from '@prisma/client';
+import { diagnosisQuestions } from '../lib/diagnosis/questions';
 
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("🌱 Seeding database...");
+  console.log('🌱 Seeding database...');
 
   // 既存のデータを削除（開発用）
-  console.log("Deleting existing data...");
+  console.log('Deleting existing data...');
   await prisma.diagnosisOption.deleteMany();
   await prisma.diagnosisQuestion.deleteMany();
 
@@ -38,14 +38,14 @@ async function main() {
   const totalQuestions = await prisma.diagnosisQuestion.count();
   const totalOptions = await prisma.diagnosisOption.count();
 
-  console.log("\n📊 Seed completed:");
+  console.log('\n📊 Seed completed:');
   console.log(`  - Questions: ${totalQuestions}`);
   console.log(`  - Options: ${totalOptions}`);
 }
 
 main()
   .catch((e) => {
-    console.error("❌ Seed failed:", e);
+    console.error('❌ Seed failed:', e);
     process.exit(1);
   })
   .finally(async () => {

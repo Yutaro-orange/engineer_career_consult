@@ -1,5 +1,10 @@
-import { fetchGitHubRepositories } from "@/packages/server-core/infrastracture/githubClient";
-import { GitHubLanguageEdge, GitHubRepository, LanguageStat, SkillPageData } from "@/packages/server-core/domain/skillResult";
+import { fetchGitHubRepositories } from '@/packages/server-core/infrastracture/githubClient';
+import {
+  GitHubLanguageEdge,
+  GitHubRepository,
+  LanguageStat,
+  SkillPageData,
+} from '@/packages/server-core/domain/skillResult';
 
 export async function skillsUseCases(accessToken: string): Promise<SkillPageData> {
   const result = await fetchGitHubRepositories(accessToken);
@@ -25,19 +30,21 @@ export async function skillsUseCases(accessToken: string): Promise<SkillPageData
 
 /** 言語バイト数から割合を計算し、1%未満を「その他」に集約 */
 export function aggregateLanguages(edges: GitHubLanguageEdge[], totalSize: number): LanguageStat[] {
-  if (totalSize === 0) return [];
+  if (totalSize === 0) {
+    return [];
+  }
 
   const languages: LanguageStat[] = [];
   edges.forEach((edge) => {
     const sizePercentage = (edge.size / totalSize) * 100;
     if (sizePercentage < 1) {
-      const otherLang = languages.find((lang) => lang.name === "その他");
+      const otherLang = languages.find((lang) => lang.name === 'その他');
       if (otherLang) {
         otherLang.percentage += sizePercentage;
         otherLang.bytes += edge.size;
       } else {
         languages.push({
-          name: "その他",
+          name: 'その他',
           percentage: sizePercentage,
           bytes: edge.size,
         });

@@ -1,7 +1,7 @@
 //"use client";
 
-import type { AnalysisResult } from "@/lib/diagnosis/analysis";
-import Link from "next/link";
+import type { AnalysisResult } from '@/lib/diagnosis/analysis';
+import Link from 'next/link';
 
 type Props = {
   result: AnalysisResult;
@@ -68,9 +68,7 @@ export function ConsultResult({ result, onRetry }: Props) {
     <div className="min-h-screen flex flex-col items-center justify-center p-8">
       <div className="max-w-2xl w-full">
         <h1 className="text-3xl font-bold mb-2 text-center">診断結果</h1>
-        <p className="text-center text-gray-500 mb-8">
-          あなたのキャリア傾向を分析しました
-        </p>
+        <p className="text-center text-gray-500 mb-8">あなたのキャリア傾向を分析しました</p>
 
         <AxisSection
           title="安定志向 vs 挑戦志向"

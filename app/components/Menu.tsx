@@ -1,5 +1,5 @@
-import Link from "next/link";
-import LogoutButton from "@/app/components/LogoutButton";
+import Link from 'next/link';
+import LogoutButton from '@/app/components/LogoutButton';
 
 export function Menu() {
   return (
