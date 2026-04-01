@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh pr view:*)",
+      "Bash(npx next build:*)",
+      "Bash(npx tsc:*)",
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(npx prisma generate:*)",
+      "Bash(pnpm build:*)",
+      "Bash(npx tsx:*)",
+      "Bash(git commit:*)"
+    ]
+  }
+}
